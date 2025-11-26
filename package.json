@@ -1,0 +1,29 @@
+{
+  "name": "synapsis",
+  "version": "1.0.0",
+  "description": "A modern CRUD task manager web app (React/Next.js, Node.js, Express, MongoDB, Tailwind, shadcn, React Query)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "aldrinreodica <reodica.aldrin06@gmail.com> (Aldrin Reodica)",
+  "license": "ISC",
+  "packageManager": "pnpm@10.14.0",
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": "prettier --write"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.7.1"
+  }
+}
