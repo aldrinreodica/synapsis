@@ -1,11 +1,19 @@
 import express from 'express'
+import dotenv from 'dotenv'
+import cors from 'cors'
+import { dbConnect } from './config/db.ts'
+
+const PORT = process.env.PORT || 3001
 
 const app = express()
-const PORT = process.env.PORT || 3000
+dotenv.config()
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// Connect to the database
+dbConnect()
+
+// App setup
+app.use(cors())
+app.use(express.json())
 
 app.listen(PORT, () => {
   console.log(`Express app listening at http://localhost:${PORT}`)

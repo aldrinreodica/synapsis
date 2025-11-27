@@ -10,8 +10,8 @@
   "keywords": [
     "react"
   ],
-  "author": "aldrinreodica <reodica.aldrin06@gmail.com> (Aldrin Reodica)",
-  "license": "ISC",
+  "author": "Aldrin Reodica",
+  "license": "MIT",
   "packageManager": "pnpm@10.14.0",
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
