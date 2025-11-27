@@ -1,12 +1,12 @@
 import { Schema, model } from 'mongoose'
-import { IUserDocument, IUserModel } from '../types/User.js'
+import { IUserDocument } from '../types/User'
 
-const UserSchema: Schema<IUserDocument> = new Schema(
+const UserSchema = new Schema<IUserDocument>(
   {
-    name: {
+    username: {
       type: String,
       required: true,
-      maxLength: 32,
+      maxLength: 50,
       trim: true,
     },
     email: {
@@ -33,6 +33,6 @@ const UserSchema: Schema<IUserDocument> = new Schema(
   }
 )
 
-const User = model<IUserDocument, IUserModel>('User', UserSchema)
+const User = model<IUserDocument>('User', UserSchema)
 
 export default User

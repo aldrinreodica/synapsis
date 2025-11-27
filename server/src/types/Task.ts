@@ -1,4 +1,4 @@
-import { Document } from 'mongoose'
+import { Document, Model } from 'mongoose'
 
 export interface ITask {
   userId: string
@@ -11,4 +11,4 @@ export interface ITask {
 
 export interface ITaskDocument extends ITask, Document {}
 
-export interface ITaskModel extends ITaskDocument {}
+export interface ITaskModel extends Model<ITaskDocument> {}
