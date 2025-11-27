@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { IUserDocument, IUserModel } from '../types/User.js'
+import { ITaskDocument } from '../types/Task'
 
 const TaskSchema = new Schema(
   {
@@ -26,6 +26,6 @@ const TaskSchema = new Schema(
   }
 )
 
-const Task = model<IUserDocument, IUserModel>('Task', TaskSchema)
+const Task = model<ITaskDocument>('Task', TaskSchema)
 
 export default Task

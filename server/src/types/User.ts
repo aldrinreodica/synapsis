@@ -1,9 +1,9 @@
-import { Document } from 'mongoose'
+import { Document, Model } from 'mongoose'
 
 export interface IUser {
-  name: String
-  email: String
-  password: String
+  username: string
+  email: string
+  password: string
   role: 'user' | 'admin' | 'superadmin'
   createdAt?: Date
   updatedAt?: Date
@@ -11,4 +11,4 @@ export interface IUser {
 
 export interface IUserDocument extends IUser, Document {}
 
-export interface IUserModel extends IUserDocument {}
+export interface IUserModel extends Model<IUserDocument> {}

@@ -1,11 +1,14 @@
 {
-  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
+    "lib": ["es2024", "ESNext.Array", "ESNext.Collection", "ESNext.Iterator"],
+    "target": "es2022",
     "allowImportingTsExtensions": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
     "noEmit": true,
     "outDir": "./dist",
     "rootDir": "./"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules, build"]
 }
