@@ -12,21 +12,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10.14
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'pnpm'
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 10
-
-      # Install frontend dependencies based on the specific pnpm-lock.yaml file
+      # Install frontend dependencies
       - name: Install frontend dependencies
-        working-directory: client
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --filter client
 
       # Build the client application
       - name: Build frontend
@@ -39,21 +38,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'pnpm'
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 10
-
       # Install backend dependencies based on the specific pnpm-lock.yaml file
       - name: Install backend dependencies
-        working-directory: server
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --filter server
 
       # Build the server application
       - name: Build backend
