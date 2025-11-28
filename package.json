@@ -12,7 +12,6 @@
   ],
   "author": "Aldrin Reodica",
   "license": "MIT",
-  "packageManager": "pnpm@10.14.0",
   "lint-staged": {
     "*.{js,ts,jsx,tsx}": [
       "eslint --fix",
@@ -22,8 +21,8 @@
   },
   "devDependencies": {
     "eslint": "^9.39.1",
+    "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.7.1"
+    "prettier": "^3.6.2"
   }
 }
