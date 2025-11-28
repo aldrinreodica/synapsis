@@ -29,7 +29,8 @@ jobs:
 
       # Build the client application
       - name: Build frontend
-        run: pnpm run build --filter client
+        working-directory: ./client
+        run: pnpm run build
 
   build-server:
     runs-on: ubuntu-latest
@@ -54,4 +55,5 @@ jobs:
 
       # Build the server application
       - name: Build backend
-        run: pnpm run build --filter server
+        working-directory: ./server
+        run: pnpm run build 
