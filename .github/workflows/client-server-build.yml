@@ -15,7 +15,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: 10.14
+          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -25,12 +25,11 @@ jobs:
 
       # Install frontend dependencies
       - name: Install frontend dependencies
-        run: pnpm install --filter client
+        run: pnpm install --frozen-lockfile
 
       # Build the client application
       - name: Build frontend
-        working-directory: client
-        run: pnpm run build
+        run: pnpm run build --filter client
 
   build-server:
     runs-on: ubuntu-latest
@@ -51,9 +50,8 @@ jobs:
 
       # Install backend dependencies based on the specific pnpm-lock.yaml file
       - name: Install backend dependencies
-        run: pnpm install --filter server
+        run: pnpm install --frozen-lockfile
 
       # Build the server application
       - name: Build backend
-        working-directory: server
-        run: pnpm run build
+        run: pnpm run build --filter server
