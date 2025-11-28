@@ -1,0 +1,61 @@
+name: Client and Server Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      # Install frontend dependencies based on the specific pnpm-lock.yaml file
+      - name: Install frontend dependencies
+        working-directory: client
+        run: pnpm install --frozen-lockfile
+
+      # Build the client application
+      - name: Build frontend
+        working-directory: client
+        run: pnpm run build
+
+  build-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      # Install backend dependencies based on the specific pnpm-lock.yaml file
+      - name: Install backend dependencies
+        working-directory: server
+        run: pnpm install --frozen-lockfile
+
+      # Build the server application
+      - name: Build backend
+        working-directory: server
+        run: pnpm run build
