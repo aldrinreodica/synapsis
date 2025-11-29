@@ -1,5 +1,5 @@
 {
-  "name": "synapsis-backend",
+  "name": "synapsis-server",
   "version": "1.0.0",
   "description": "A server-side application for Synapsis task manager",
   "scripts": {
