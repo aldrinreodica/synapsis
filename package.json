@@ -4,7 +4,6 @@
   "description": "A modern CRUD task manager web app (React/Next.js, Node.js, Express, MongoDB, Tailwind, shadcn, React Query)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky"
   },
   "keywords": [
