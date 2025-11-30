@@ -24,12 +24,27 @@ export const signIn = async (req: Request, res: Response) => {
   const { email, password } = req.body
 
   const user = await User.findOne({ email })
-  if (!user) return res.status(400).json({ message: 'Invalid credentials' })
+  if (!user) {
+    console.log({ id: 'signin-error', email, success: false })
+    return res.status(200).json({
+      error: 'email',
+      message: 'Account does not exist.',
+      success: false,
+    })
+  }
 
   const valid = await bcrypt.compare(password, user.password)
-  if (!valid) return res.status(400).json({ message: 'Invalid credentials' })
+  if (!valid) {
+    console.log({ id: 'signin-error', userId: user._id, success: false })
+    return res.status(200).json({
+      error: 'password',
+      message: 'Password is incorrect.',
+      success: false,
+    })
+  }
 
   const token = signToken(user._id.toString())
 
-  res.status(200).json({ user, token })
+  console.log({ id: 'signin-success', user, success: true })
+  res.status(200).json({ success: true, user, token })
 }
