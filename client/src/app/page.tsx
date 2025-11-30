@@ -1,15 +1,24 @@
 'use client'
 
-import useAuth from '@/hooks/useAuth'
+import { Spinner } from '@/components/ui/spinner'
+import useAuth from '@/hooks/use-auth'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export default function Home() {
   const { user, isAuthenticated } = useAuth()
+  const router = useRouter()
 
-  if (isAuthenticated) {
-    console.log('User is authenticated')
-  } else {
-    console.log('User is not authenticated')
-  }
+  useEffect(() => {
+    if (!isAuthenticated) router.push('/login')
+  }, [isAuthenticated, router])
+
+  if (!isAuthenticated)
+    return (
+      <div className="flex h-svh justify-center items-center">
+        <Spinner className="size-8" />
+      </div>
+    )
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
