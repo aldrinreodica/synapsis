@@ -1,43 +1,46 @@
 'use client'
 
-import useAuth from '@/hooks/use-auth'
-import { Button } from '../ui/button'
-import { Input } from '../ui/input'
-import { z } from 'zod'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '../ui/button'
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '../ui/form'
-import Link from 'next/link'
+import { Input } from '../ui/input'
+import z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { signUpSchema } from '@/schemas/auth.schema'
+import { useRegister } from '@/hooks/use-register'
+import useAuth from '@/hooks/use-auth'
 import { useRouter } from 'next/navigation'
-import { signInSchema } from '@/schemas/auth.schema'
-import { useLogin } from '@/hooks/use-login'
+import { error } from 'console'
 import { Spinner } from '../ui/spinner'
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const { setUser } = useAuth()
-  const loginMutation = useLogin()
+  const registerMutation = useRegister()
   const router = useRouter()
 
-  const form = useForm<z.infer<typeof signInSchema>>({
-    resolver: zodResolver(signInSchema),
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
+      username: '',
       email: '',
       password: '',
     },
   })
 
-  const onSubmit = async (values: z.infer<typeof signInSchema>) => {
-    const { email, password } = values
+  const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
+    const { username, email, password } = values
+    console.log(values)
 
-    await loginMutation
-      .mutateAsync({ email, password })
+    await registerMutation
+      .mutateAsync({ username, email, password })
       .then((data) => {
         if (data.success) {
           localStorage.setItem('user', JSON.stringify(data.user))
@@ -50,16 +53,10 @@ const LoginForm = () => {
               type: 'manual',
               message: data.message,
             })
-
-          if (data.error === 'password')
-            form.setError('password', {
-              type: 'manual',
-              message: data.message,
-            })
         }
       })
       .catch((error) => {
-        console.error('Login error', error)
+        console.error('Register error', error)
       })
   }
 
@@ -68,11 +65,28 @@ const LoginForm = () => {
       <Form {...form}>
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="space-y-2 text-center">
-            <h1 className="font-bold text-2xl">Welcome back!</h1>
+            <h1 className="font-bold text-2xl">Create an account</h1>
             <p className="text-muted-foreground text-sm">
-              Login to your Synapsis account
+              Sign up to get started with Synapsis
             </p>
           </div>
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input
+                    className="bg-background"
+                    placeholder="JohnDoe"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="email"
@@ -96,17 +110,18 @@ const LoginForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <div className="flex items-center justify-between">
-                  <FormLabel>Password</FormLabel>
-                </div>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
                     className="bg-background"
-                    placeholder="Enter your password"
+                    placeholder="Create a strong password"
                     type="password"
                     {...field}
                   />
                 </FormControl>
+                <FormDescription className="text-xs">
+                  Must contain uppercase, lowercase, and number
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -114,19 +129,19 @@ const LoginForm = () => {
           <Button
             className="w-full"
             type="submit"
-            disabled={loginMutation.isPending}
+            disabled={registerMutation.isPending}
           >
-            {loginMutation.isPending && <Spinner />} Sign In
+            {registerMutation.isPending && <Spinner />} Create Account
           </Button>
           <p className="text-center text-muted-foreground text-sm">
-            Don't have an account?{' '}
-            <Link className="hover:underline" href="/register">
-              Sign up
-            </Link>
+            Already have an account?{' '}
+            <a className="hover:underline" href="/login">
+              Sign in
+            </a>
           </p>
         </form>
       </Form>
     </div>
   )
 }
-export default LoginForm
+export default RegisterForm
