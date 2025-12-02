@@ -14,5 +14,8 @@ export const updateTaskSchema = z.object({
   description: z.string().optional(),
   status: z.enum(TaskStatusEnum).optional(),
   label: z.enum(TaskLabelEnum).optional(),
-  columnId: z.enum(TaskStatusEnum).optional(),
+})
+
+export const updateStatusSchema = z.object({
+  status: z.enum(TaskStatusEnum).optional(),
 })

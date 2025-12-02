@@ -4,7 +4,16 @@ import { AuthRequest } from '../middlewares/auth.middleware'
 import bcrypt from 'bcryptjs'
 
 export const getUsers = async (req: AuthRequest, res: Response) => {
-  const users = await User.find()
+  const rolesFilter = req.query.roles as string
+  let query: any = {}
+  if (rolesFilter) {
+    const allowedRoles = rolesFilter.split(',')
+    query.role = { $in: allowedRoles }
+  }
+
+  const users = await User.find(query)
+
+  console.log({ id: 'get-users-success', users, success: true })
   res.status(200).json({ users })
 }
 

@@ -5,6 +5,7 @@ export interface IUser {
   email: string
   password: string
   role: 'user' | 'admin' | 'superadmin'
+  addedBy: string
   createdAt?: Date
   updatedAt?: Date
 }

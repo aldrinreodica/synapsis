@@ -3,12 +3,18 @@
 import { useContext } from 'react'
 import { TaskContext } from '@/context/TaskProvider'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createTask, deleteTask, updateTask } from '@/services/tasks'
+import {
+  createTask,
+  deleteTask,
+  updateTask,
+  updateTaskByStatus,
+} from '@/services/tasks'
 
 enum TaskMutationEnum {
   'create' = 'create',
   'update' = 'update',
   'delete' = 'delete',
+  'updateStatus' = 'updateStatus',
 }
 
 export function useTaskContext() {
@@ -42,6 +48,14 @@ export const useTaskMutation = (action: string) => {
       return useMutation<any, Error, string>({
         mutationKey: ['task', 'delete'],
         mutationFn: deleteTask,
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['tasks'] })
+        },
+      })
+    case TaskMutationEnum.updateStatus:
+      return useMutation({
+        mutationKey: ['task', 'updateStatus'],
+        mutationFn: updateTaskByStatus,
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['tasks'] })
         },

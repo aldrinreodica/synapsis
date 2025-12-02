@@ -42,6 +42,25 @@ export const updateTask = async (req: AuthRequest, res: Response) => {
   res.status(200).json({ task, success: true })
 }
 
+export const updateTaskStatus = async (req: AuthRequest, res: Response) => {
+  const { id } = req.params
+  const { status } = req.body
+
+  const task = await Task.findOneAndUpdate(
+    { _id: id },
+    { status },
+    { new: true }
+  )
+
+  if (!task) {
+    console.log({ id: 'update-task-error', task, success: false })
+    return res.status(404).json({ message: 'Task not found' })
+  }
+
+  console.log({ id: 'update-task-success', task, success: true })
+  res.status(200).json({ task, success: true })
+}
+
 export const deleteTask = async (req: AuthRequest, res: Response) => {
   const { id } = req.params
 

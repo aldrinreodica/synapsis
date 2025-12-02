@@ -1,8 +1,13 @@
 import { api } from '@/lib/api'
-import { ICreateTask, ITask, IUpdateTask } from '@/types/tasks'
+import { ICreateTask, ITask, IUpdateTask, TaskStatusEnum } from '@/types/tasks'
 
 interface IUpdateParams extends IUpdateTask {
   id: string
+}
+
+interface IUpdateStatus {
+  id: string
+  status: TaskStatusEnum
 }
 
 export const getTasks = async () => {
@@ -10,14 +15,20 @@ export const getTasks = async () => {
   return res.data.tasks
 }
 
-export const createTask = async (data: ICreateTask) => {
-  const res = await api.post('/tasks/create', data)
+export const createTask = async (params: ICreateTask) => {
+  const res = await api.post('/tasks/create', params)
   return res.data
 }
 
 export const updateTask = async (params: IUpdateParams) => {
   const { id, ...data } = params
   const res = await api.put(`/tasks/update/${id}`, data)
+  return res.data
+}
+
+export const updateTaskByStatus = async (params: IUpdateStatus) => {
+  const { id, ...data } = params
+  const res = await api.put(`/tasks/update/${id}/status`, data)
   return res.data
 }
 

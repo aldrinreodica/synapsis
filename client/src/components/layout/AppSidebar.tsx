@@ -28,10 +28,15 @@ import {
 } from '../ui/collapsible'
 import { Badge } from '../ui/badge'
 import { ChevronDown } from 'lucide-react'
+import useAuth from '@/hooks/use-auth'
 
 const AppSidebar = ({ ...props }) => {
+  const { user } = useAuth()
+
   const pathname = usePathname()
   const renderMenuItem = (item: NavigationRootItem | NavigationNestedItem) => {
+    if (!item.roles?.includes(user?.role!)) return
+    const label = item.label
     if (item.items) {
       return (
         <Collapsible className="group/collapsible">
@@ -44,7 +49,7 @@ const AppSidebar = ({ ...props }) => {
                 <span>{item.title}</span>
                 {'label' in item && (
                   <Badge variant="secondary" className="me-2">
-                    {item.label}
+                    {label}
                   </Badge>
                 )}
               </span>
@@ -66,17 +71,29 @@ const AppSidebar = ({ ...props }) => {
 
     if ('href' in item) {
       const isActive = isActivePathname(item.href, pathname)
-
-      return (
+      if (item.title !== 'Dashboard')
+        return (
+          <SidebarMenuButton isActive={isActive} asChild>
+            <Link href={item.href}>
+              {'iconName' in item && (
+                <DynamicIcon name={item.iconName} className="h-4 w-4" />
+              )}
+              <span>{item.title}</span>
+              {'label' in item && (
+                <Badge variant="secondary" className="bg-black text-white">
+                  {label}
+                </Badge>
+              )}
+            </Link>
+          </SidebarMenuButton>
+        )
+      else
         <SidebarMenuButton isActive={isActive} asChild>
-          <Link href={item.href}>
-            {'iconName' in item && (
-              <DynamicIcon name={item.iconName} className="h-4 w-4" />
-            )}
-            <span>{item.title}</span>
-          </Link>
+          {'iconName' in item && (
+            <DynamicIcon name={item.iconName} className="h-4 w-4" />
+          )}
+          <span>{item.title}</span>
         </SidebarMenuButton>
-      )
     }
   }
   return (
@@ -90,20 +107,23 @@ const AppSidebar = ({ ...props }) => {
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        {navigationsData.map((nav) => (
-          <SidebarGroup key={nav.title}>
-            <SidebarGroupLabel>{nav.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {nav.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    {renderMenuItem(item)}
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+        {navigationsData.map((nav) => {
+          if (!nav?.roles!.includes(user?.role!)) return
+          return (
+            <SidebarGroup key={nav.title}>
+              <SidebarGroupLabel>{nav.title}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {nav.items.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      {renderMenuItem(item)}
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          )
+        })}
       </SidebarContent>
       <SidebarFooter />
       <SidebarRail />
