@@ -81,17 +81,17 @@ Note: Before proceeding, you may skip #2 and #3 and proceed to step #4 (only if 
 
 2. Frontend Setup (synapsis-client)
 
-# Create an .env file in the /client root with the following variables:
+Create an .env file in the /client root with the following variables:
 
-# --------------------------------------------------------------------------
+--------------------------------------------------------------------------
 
-# PORT=3000
+PORT=3000
 
-# NEXT_PUBLIC_API_URL=http://localhost:5000/api
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
 
-# NEXT_PUBLIC_NODE_ENV=development
+NEXT_PUBLIC_NODE_ENV=development
 
-# --------------------------------------------------------------------------
+--------------------------------------------------------------------------
 
 Run the following command to start the client app:
 
