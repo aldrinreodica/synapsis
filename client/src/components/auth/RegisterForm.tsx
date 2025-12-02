@@ -18,7 +18,6 @@ import { signUpSchema } from '@/schemas/auth.schema'
 import { useRegister } from '@/hooks/use-register'
 import useAuth from '@/hooks/use-auth'
 import { useRouter } from 'next/navigation'
-import { error } from 'console'
 import { Spinner } from '../ui/spinner'
 
 const RegisterForm = () => {
@@ -79,7 +78,7 @@ const RegisterForm = () => {
                 <FormControl>
                   <Input
                     className="bg-background"
-                    placeholder="JohnDoe"
+                    placeholder="john-doe"
                     {...field}
                   />
                 </FormControl>

@@ -1,12 +1,14 @@
 'use client'
 
+import DashboardLayout from '@/components/layout/DashboardLayout'
+import TaskboardRoot from '@/components/taskboard'
 import { Spinner } from '@/components/ui/spinner'
 import useAuth from '@/hooks/use-auth'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
-export default function Home() {
-  const { user, isAuthenticated } = useAuth()
+const Home = () => {
+  const { isAuthenticated } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
@@ -21,10 +23,10 @@ export default function Home() {
     )
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        Hello there, {user?.username}
-      </main>
-    </div>
+    <DashboardLayout>
+      <TaskboardRoot />
+    </DashboardLayout>
   )
 }
+
+export default Home
