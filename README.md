@@ -101,15 +101,15 @@ pnpm run dev
 
 3. Backend Setup (synapsis-backend)
 
-# Create an .env file in the /server root with the following variables:
+Create an .env file in the /server root with the following variables:
 
-# --------------------------------------------------------------------------
+--------------------------------------------------------------------------
 
-# MONGO_URI=mongodb://mongo:27017/synapsis
+MONGO_URI=mongodb://mongo:27017/synapsis
 
-# JWT_SECRET=5b1f08a6a4f663940241f50e7864be95
+JWT_SECRET=5b1f08a6a4f663940241f50e7864be95
 
-# --------------------------------------------------------------------------
+--------------------------------------------------------------------------
 
 Run the following command to start the server app:
 
@@ -119,7 +119,7 @@ pnpm run dev
 
 4. Open Docker Desktop
 
-# Run the following command
+Run the following command
 
 ```bash
 # Docker V2
