@@ -41,8 +41,6 @@ const User = () => {
     queryFn: () => getUsers(user?.role, 'user'),
   })
 
-  console.log({ usersData })
-
   const users = useMemo(() => {
     if (usersData) return usersData.users
 

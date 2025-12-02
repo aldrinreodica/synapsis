@@ -36,8 +36,6 @@ const Admin = () => {
     queryFn: () => getUsers(user?.role, 'admin,superadmin'),
   })
 
-  console.log({ usersData })
-
   const users = useMemo(() => {
     if (usersData) return usersData.users
 

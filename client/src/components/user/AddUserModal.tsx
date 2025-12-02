@@ -50,8 +50,6 @@ const AddUserModal: FunctionComponent<AddUserModalProps> = ({
   const userMutation = useUserMutation('create')
 
   const onSubmit = async (values: AddUserValues) => {
-    console.log('Form submitted successfully! Data:', values)
-
     const newUserParams = {
       ...values,
       role: values.role || 'user',
