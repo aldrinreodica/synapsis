@@ -76,7 +76,7 @@ const LoginForm = () => {
           <FormField
             control={form.control}
             name="email"
-            render={({ field }) => (
+            render={({ field }: any) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
@@ -94,7 +94,7 @@ const LoginForm = () => {
           <FormField
             control={form.control}
             name="password"
-            render={({ field }) => (
+            render={({ field }: any) => (
               <FormItem>
                 <div className="flex items-center justify-between">
                   <FormLabel>Password</FormLabel>

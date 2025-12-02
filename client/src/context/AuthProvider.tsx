@@ -1,5 +1,7 @@
 'use client'
 
+import { IUser } from '@/types/tasks'
+import { useRouter } from 'next/navigation'
 import {
   createContext,
   Dispatch,
@@ -9,18 +11,9 @@ import {
   useState,
 } from 'react'
 
-interface User {
-  _id: string
-  username: string
-  email: string
-  role: 'user' | 'admin' | 'superadmin'
-  createdAt: string
-  updatedAt: string
-}
-
 interface AuthProviderType {
-  user: User | null
-  setUser: Dispatch<SetStateAction<User | null>>
+  user: IUser | null
+  setUser: Dispatch<SetStateAction<IUser | null>>
   token: string | null
   setToken: Dispatch<SetStateAction<string | null>>
   logout: () => void
@@ -32,7 +25,8 @@ export const AuthContext = createContext<AuthProviderType | undefined>(
 )
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null)
+  const router = useRouter()
+  const [user, setUser] = useState<IUser | null>(null)
   const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
@@ -48,6 +42,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     setToken(null)
     localStorage.removeItem('user')
     localStorage.removeItem('token')
+    router.push('/')
   }
 
   return (

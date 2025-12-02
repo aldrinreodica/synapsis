@@ -3,6 +3,9 @@ import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
+import { LoaderCircle } from 'lucide-react'
+import type { ComponentProps } from 'react'
+import { IconType } from '@/types/tasks'
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
@@ -36,6 +39,11 @@ const buttonVariants = cva(
   }
 )
 
+interface ButtonProps
+  extends ComponentProps<'button'>, VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
 function Button({
   className,
   variant,
@@ -54,6 +62,51 @@ function Button({
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />
+  )
+}
+
+interface ButtonLoadingProps extends ButtonProps {
+  isLoading: boolean
+  loadingIconClassName?: string
+  iconClassName?: string
+  icon?: IconType
+}
+
+export function ButtonLoading({
+  isLoading,
+  disabled,
+  children,
+  loadingIconClassName,
+  iconClassName,
+  icon: Icon,
+  ...props
+}: ButtonLoadingProps) {
+  let RenderedIcon
+  if (isLoading) {
+    RenderedIcon = (
+      <LoaderCircle
+        className={cn('me-2 size-4 animate-spin', loadingIconClassName)}
+        aria-hidden
+      />
+    )
+  } else if (Icon) {
+    RenderedIcon = (
+      <Icon className={cn('me-2 size-4', iconClassName)} aria-hidden />
+    )
+  }
+
+  return (
+    <Button
+      data-slot="button-loading"
+      type="submit"
+      disabled={isLoading || disabled}
+      aria-live="assertive"
+      aria-label={isLoading ? 'Loading' : props['aria-label']}
+      {...props}
+    >
+      {RenderedIcon}
+      {children}
+    </Button>
   )
 }
 
