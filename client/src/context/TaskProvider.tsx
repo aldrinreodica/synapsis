@@ -39,6 +39,7 @@ const TaskProvider = ({ taskData, children }: TaskProviderProps) => {
   const taskMutation = useTaskMutation('create')
   const taskUpdateMutation = useTaskMutation('update')
   const taskDeleteMutation = useTaskMutation('delete')
+  const taskUpdateStatusMutation = useTaskMutation('updateStatus')
 
   // Handlers for task actions
   const handleAddTask = async (
@@ -75,7 +76,6 @@ const TaskProvider = ({ taskData, children }: TaskProviderProps) => {
 
   const handleDeleteTask = async (taskId: ITask['id']) => {
     await taskDeleteMutation?.mutateAsync(taskId as any).then((data) => {
-      console.log('DATAAAA', { data })
       dispatch({ type: 'deleteTask', taskId })
       toast.success('A task has been deleted', {
         description: `Info: ${data.task.title} - ${data.task.description}`,
@@ -97,11 +97,12 @@ const TaskProvider = ({ taskData, children }: TaskProviderProps) => {
     })
   }
 
-  const handleReorderTasks = (
+  const handleReorderTasks = async (
     sourceColumnId: string,
     sourceIndex: number,
     destinationColumnId: string,
-    destinationIndex: number
+    destinationIndex: number,
+    draggableId: string
   ) => {
     if (
       sourceColumnId === destinationColumnId &&
@@ -109,10 +110,19 @@ const TaskProvider = ({ taskData, children }: TaskProviderProps) => {
     )
       return
 
-    dispatch({
-      type: 'reorderTasks',
-      source: { columnId: sourceColumnId, index: sourceIndex },
-      destination: { columnId: destinationColumnId, index: destinationIndex },
+    const newData = {
+      id: draggableId,
+      status: destinationColumnId,
+    }
+    await taskUpdateStatusMutation?.mutateAsync(newData as any).then((data) => {
+      dispatch({
+        type: 'reorderTasks',
+        source: { columnId: sourceColumnId, index: sourceIndex },
+        destination: { columnId: destinationColumnId, index: destinationIndex },
+      })
+      toast.success('A task status has been updated', {
+        description: `Info: ${sourceColumnId} - ${data.task.status}`,
+      })
     })
   }
 

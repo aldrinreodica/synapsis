@@ -17,6 +17,7 @@ export interface IUser {
   email: string
   password?: string
   role: 'user' | 'admin' | 'superadmin'
+  updatedBy?: string
   createdAt?: Date
   updatedAt?: Date
 }
@@ -50,8 +51,17 @@ export interface IUpdateTask {
   label: TaskLabelEnum
 }
 
-export interface IUpdateTask {
-  id: string
+export enum UserRoleEnum {
+  'user' = 'user',
+  'admin' = 'admin',
+  'superadmin' = 'superadmin',
+}
+export interface ICreateUser {
+  username: string
+  email: string
+  password: string
+  role: UserRoleEnum
+  addedBy?: string
 }
 
 export enum TaskLabelEnum {
@@ -146,7 +156,8 @@ export interface TaskContextType {
     sourceColumnId: string,
     sourceIndex: number,
     destinationColumnId: string,
-    destinationIndex: number
+    destinationIndex: number,
+    draggableId: string
   ) => void
   handleSelectColumn: (column: ColumnType | undefined) => void
   handleSelectTask: (task: ITask | undefined) => void

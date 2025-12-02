@@ -36,7 +36,6 @@ const RegisterForm = () => {
 
   const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
     const { username, email, password } = values
-    console.log(values)
 
     await registerMutation
       .mutateAsync({ username, email, password })
